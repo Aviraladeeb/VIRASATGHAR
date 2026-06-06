@@ -1266,23 +1266,22 @@ footer {
   </div>
 
   <div class="hero-right">
-    <div class="hero-visual">
+    <div class="hero-visual" style="position:relative;width:340px;height:460px;overflow:hidden;">
+      <div class="corner-deco tl" style="z-index:4;"></div>
+      <div class="corner-deco tr" style="z-index:4;"></div>
+      <div class="corner-deco bl" style="z-index:4;"></div>
+      <div class="corner-deco br" style="z-index:4;"></div>
       <div class="ring-outer"></div>
       <div class="ring-inner"></div>
-      <div class="hero-frame">
-        <div class="corner-deco tl"></div>
-        <div class="corner-deco tr"></div>
-        <div class="corner-deco bl"></div>
-        <div class="corner-deco br"></div>
-        <div class="frame-inner"></div>
-        <svg viewBox="0 0 340 460" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;position:absolute;inset:0;">
+      <div style="position:absolute;inset:0;z-index:2;">
+        <svg viewBox="0 0 340 460" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
   <defs>
     <radialGradient id="bgGrad" cx="50%" cy="50%" r="60%">
-      <stop offset="0%" stop-color="#1A1208" stop-opacity="1"/>
-      <stop offset="100%" stop-color="#0E0B07" stop-opacity="1"/>
+      <stop offset="0%" stop-color="#1A1208"/>
+      <stop offset="100%" stop-color="#0E0B07"/>
     </radialGradient>
-    <radialGradient id="glowGold" cx="50%" cy="50%" r="50%">
-      <stop offset="0%" stop-color="#C9A84C" stop-opacity="0.12"/>
+    <radialGradient id="glowGold" cx="50%" cy="60%" r="50%">
+      <stop offset="0%" stop-color="#C9A84C" stop-opacity="0.15"/>
       <stop offset="100%" stop-color="#C9A84C" stop-opacity="0"/>
     </radialGradient>
     <linearGradient id="elderSkin" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -1291,133 +1290,119 @@ footer {
     </linearGradient>
     <linearGradient id="childSkin" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" stop-color="#D4A574"/>
-      <stop offset="100%" stop-color="#C08850"/>
+      <stop offset="100%" stop-color="#BC8040"/>
     </linearGradient>
-    <linearGradient id="shadowGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+    <linearGradient id="bottomFade" x1="0%" y1="0%" x2="0%" y2="100%">
       <stop offset="0%" stop-color="#0E0B07" stop-opacity="0"/>
-      <stop offset="100%" stop-color="#0E0B07" stop-opacity="0.7"/>
+      <stop offset="70%" stop-color="#0E0B07" stop-opacity="0.5"/>
+      <stop offset="100%" stop-color="#0E0B07" stop-opacity="0.92"/>
     </linearGradient>
-    <filter id="softShadow" x="-20%" y="-20%" width="140%" height="140%">
-      <feDropShadow dx="0" dy="4" stdDeviation="8" flood-color="#000" flood-opacity="0.4"/>
-    </filter>
-    <filter id="glow">
-      <feGaussianBlur stdDeviation="3" result="blur"/>
-      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    <filter id="handShadow">
+      <feDropShadow dx="2" dy="6" stdDeviation="10" flood-color="#000" flood-opacity="0.5"/>
     </filter>
   </defs>
 
   <!-- Background -->
   <rect width="340" height="460" fill="url(#bgGrad)"/>
-  <ellipse cx="170" cy="230" rx="160" ry="180" fill="url(#glowGold)"/>
+  <ellipse cx="170" cy="280" rx="170" ry="200" fill="url(#glowGold)"/>
 
-  <!-- Subtle grain lines -->
-  <line x1="0" y1="80" x2="340" y2="80" stroke="#C9A84C" stroke-opacity="0.04" stroke-width="1"/>
-  <line x1="0" y1="380" x2="340" y2="380" stroke="#C9A84C" stroke-opacity="0.04" stroke-width="1"/>
+  <!-- ELDER HAND - large, weathered, from bottom left -->
+  <g filter="url(#handShadow)">
+    <!-- Elder wrist/palm base -->
+    <path d="M 30 460 L 30 340 Q 32 310 60 295 Q 90 280 120 285 L 200 285 Q 220 285 225 300 L 225 340 Q 220 370 200 380 Q 170 395 140 390 Q 110 395 85 410 Q 60 425 50 460 Z" fill="url(#elderSkin)"/>
+    
+    <!-- Elder palm wrinkles -->
+    <path d="M 70 330 Q 140 320 205 328" stroke="#7A4A28" stroke-width="1.2" stroke-opacity="0.45" fill="none"/>
+    <path d="M 65 345 Q 140 336 208 343" stroke="#7A4A28" stroke-width="1" stroke-opacity="0.35" fill="none"/>
+    <path d="M 68 358 Q 138 350 206 357" stroke="#7A4A28" stroke-width="0.8" stroke-opacity="0.25" fill="none"/>
 
-  <!-- ELDER HAND (left, larger, wrinkled, coming from bottom-left) -->
-  <g filter="url(#softShadow)" transform="translate(20, 140)">
-    <!-- Palm of elder -->
-    <ellipse cx="100" cy="220" rx="68" ry="52" fill="url(#elderSkin)"/>
-
-    <!-- Wrinkle lines on palm -->
-    <path d="M 60 210 Q 100 205 138 212" stroke="#8B5E3C" stroke-width="1.2" stroke-opacity="0.5" fill="none"/>
-    <path d="M 55 222 Q 100 218 142 224" stroke="#8B5E3C" stroke-width="1" stroke-opacity="0.4" fill="none"/>
-    <path d="M 62 234 Q 100 230 136 236" stroke="#8B5E3C" stroke-width="0.8" stroke-opacity="0.3" fill="none"/>
-
-    <!-- Elder thumb -->
-    <ellipse cx="48" cy="195" rx="18" ry="28" fill="url(#elderSkin)" transform="rotate(-25, 48, 195)"/>
-    <path d="M 36 180 Q 42 172 54 175 Q 60 185 56 200" stroke="#8B5E3C" stroke-width="0.8" stroke-opacity="0.4" fill="none"/>
+    <!-- Age spots -->
+    <circle cx="95" cy="335" r="3.5" fill="#8B5E3C" fill-opacity="0.28"/>
+    <circle cx="155" cy="325" r="2.5" fill="#8B5E3C" fill-opacity="0.22"/>
+    <circle cx="178" cy="348" r="2" fill="#8B5E3C" fill-opacity="0.2"/>
+    <circle cx="80" cy="355" r="2" fill="#8B5E3C" fill-opacity="0.18"/>
 
     <!-- Elder index finger -->
-    <rect x="72" y="130" width="26" height="88" rx="13" fill="url(#elderSkin)"/>
-    <path d="M 76 155 Q 85 150 96 155" stroke="#8B5E3C" stroke-width="0.8" stroke-opacity="0.35" fill="none"/>
-    <path d="M 76 170 Q 85 165 96 170" stroke="#8B5E3C" stroke-width="0.8" stroke-opacity="0.35" fill="none"/>
+    <path d="M 68 285 Q 65 240 68 200 Q 70 178 82 170 Q 94 162 100 178 Q 106 195 105 240 L 104 285 Z" fill="url(#elderSkin)"/>
+    <path d="M 72 235 Q 86 230 100 235" stroke="#7A4A28" stroke-width="0.9" stroke-opacity="0.4" fill="none"/>
+    <path d="M 72 212 Q 86 207 100 212" stroke="#7A4A28" stroke-width="0.9" stroke-opacity="0.35" fill="none"/>
 
-    <!-- Elder middle finger -->
-    <rect x="100" y="118" width="26" height="100" rx="13" fill="url(#elderSkin)"/>
-    <path d="M 104 142 Q 113 137 122 142" stroke="#8B5E3C" stroke-width="0.8" stroke-opacity="0.35" fill="none"/>
-    <path d="M 104 158 Q 113 153 122 158" stroke="#8B5E3C" stroke-width="0.8" stroke-opacity="0.35" fill="none"/>
+    <!-- Elder middle finger (child wraps here) -->
+    <path d="M 100 285 Q 98 235 100 190 Q 102 165 115 158 Q 128 151 133 168 Q 138 185 136 240 L 134 285 Z" fill="url(#elderSkin)"/>
+    <path d="M 104 232 Q 117 227 132 232" stroke="#7A4A28" stroke-width="0.9" stroke-opacity="0.4" fill="none"/>
+    <path d="M 104 208 Q 117 203 132 208" stroke="#7A4A28" stroke-width="0.9" stroke-opacity="0.35" fill="none"/>
 
     <!-- Elder ring finger -->
-    <rect x="128" y="126" width="24" height="92" rx="12" fill="url(#elderSkin)"/>
-    <path d="M 132 148 Q 140 143 150 148" stroke="#8B5E3C" stroke-width="0.8" stroke-opacity="0.35" fill="none"/>
+    <path d="M 134 285 Q 132 240 134 200 Q 136 178 148 172 Q 160 166 164 182 Q 168 198 166 245 L 165 285 Z" fill="url(#elderSkin)"/>
+    <path d="M 138 238 Q 150 233 163 238" stroke="#7A4A28" stroke-width="0.9" stroke-opacity="0.35" fill="none"/>
 
     <!-- Elder pinky -->
-    <rect x="154" y="148" width="20" height="70" rx="10" fill="url(#elderSkin)"/>
+    <path d="M 165 285 Q 164 248 166 218 Q 168 202 178 198 Q 188 194 190 208 Q 192 222 190 260 L 188 285 Z" fill="url(#elderSkin)"/>
 
-    <!-- Age spots on elder hand -->
-    <circle cx="90" cy="215" r="3" fill="#8B5E3C" fill-opacity="0.25"/>
-    <circle cx="115" cy="225" r="2.5" fill="#8B5E3C" fill-opacity="0.2"/>
-    <circle cx="78" cy="230" r="2" fill="#8B5E3C" fill-opacity="0.18"/>
-    <circle cx="135" cy="218" r="2" fill="#8B5E3C" fill-opacity="0.2"/>
-
-    <!-- Knuckle lines on fingers -->
-    <path d="M 76 185 Q 85 182 96 185" stroke="#8B5E3C" stroke-width="0.8" stroke-opacity="0.3" fill="none"/>
-    <path d="M 104 175 Q 113 172 122 175" stroke="#8B5E3C" stroke-width="0.8" stroke-opacity="0.3" fill="none"/>
-    <path d="M 132 168 Q 140 165 150 168" stroke="#8B5E3C" stroke-width="0.8" stroke-opacity="0.3" fill="none"/>
+    <!-- Elder thumb - coming from side -->
+    <path d="M 30 340 Q 28 310 35 290 Q 42 270 58 268 Q 72 266 74 282 Q 76 298 68 310 Q 56 325 44 340 Z" fill="url(#elderSkin)"/>
+    <path d="M 38 305 Q 52 298 68 303" stroke="#7A4A28" stroke-width="0.9" stroke-opacity="0.35" fill="none"/>
   </g>
 
-  <!-- CHILD HAND (right, smaller, smooth, coming from top-right, gripping elder fingers) -->
-  <g filter="url(#softShadow)" transform="translate(148, 80)">
+  <!-- CHILD HAND - small, smooth, from top right, gently gripping elder middle finger -->
+  <g filter="url(#handShadow)">
     <!-- Child palm -->
-    <ellipse cx="80" cy="180" rx="48" ry="38" fill="url(#childSkin)"/>
+    <path d="M 310 0 L 310 140 Q 308 168 285 178 Q 262 188 245 182 L 180 182 Q 162 180 158 165 L 158 130 Q 162 108 182 100 Q 210 88 240 92 Q 268 78 290 60 Q 305 42 310 0 Z" fill="url(#childSkin)"/>
 
-    <!-- Child thumb -->
-    <ellipse cx="38" cy="162" rx="13" ry="20" fill="url(#childSkin)" transform="rotate(-20, 38, 162)"/>
+    <!-- Child palm highlight - smooth skin -->
+    <ellipse cx="234" cy="155" rx="40" ry="22" fill="white" fill-opacity="0.07"/>
 
-    <!-- Child index finger — wrapping around elder middle finger -->
-    <rect x="52" y="102" width="20" height="80" rx="10" fill="url(#childSkin)"/>
+    <!-- Child index finger -->
+    <path d="M 172 182 Q 168 148 170 118 Q 172 100 182 94 Q 192 88 196 104 Q 200 120 198 160 L 196 182 Z" fill="url(#childSkin)"/>
+    <circle cx="184" cy="138" r="3" fill="#A06030" fill-opacity="0.18"/>
 
-    <!-- Child middle finger -->
-    <rect x="74" y="92" width="20" height="90" rx="10" fill="url(#childSkin)"/>
+    <!-- Child middle finger - wrapping elder's middle -->
+    <path d="M 200 182 Q 197 144 200 110 Q 202 90 213 85 Q 224 80 227 97 Q 230 114 228 156 L 226 182 Z" fill="url(#childSkin)"/>
+    <circle cx="214" cy="126" r="3" fill="#A06030" fill-opacity="0.18"/>
 
     <!-- Child ring finger -->
-    <rect x="96" y="100" width="18" height="82" rx="9" fill="url(#childSkin)"/>
+    <path d="M 228 182 Q 226 148 228 118 Q 230 100 240 96 Q 250 92 252 108 Q 254 124 252 162 L 250 182 Z" fill="url(#childSkin)"/>
+    <circle cx="240" cy="133" r="3" fill="#A06030" fill-opacity="0.16"/>
 
     <!-- Child pinky -->
-    <rect x="116" y="116" width="16" height="66" rx="8" fill="url(#childSkin)"/>
+    <path d="M 252 182 Q 251 155 253 130 Q 255 116 263 113 Q 271 110 272 124 Q 273 138 271 165 L 270 182 Z" fill="url(#childSkin)"/>
 
-    <!-- Child knuckle dimples — subtle -->
-    <circle cx="62" cy="148" r="3" fill="#B07040" fill-opacity="0.2"/>
-    <circle cx="84" cy="138" r="3" fill="#B07040" fill-opacity="0.2"/>
-    <circle cx="105" cy="144" r="3" fill="#B07040" fill-opacity="0.18"/>
-    <circle cx="124" cy="155" r="3" fill="#B07040" fill-opacity="0.18"/>
-
-    <!-- Smooth skin highlight -->
-    <ellipse cx="84" cy="175" rx="30" ry="18" fill="white" fill-opacity="0.06"/>
+    <!-- Child thumb -->
+    <path d="M 310 80 Q 295 75 280 82 Q 266 90 264 105 Q 262 120 272 128 Q 285 136 298 125 Q 308 112 310 95 Z" fill="url(#childSkin)"/>
+    <circle cx="282" cy="106" r="3" fill="#A06030" fill-opacity="0.18"/>
   </g>
 
-  <!-- Warm light ray from join point -->
-  <radialGradient id="joinGlow" cx="52%" cy="55%" r="25%">
-    <stop offset="0%" stop-color="#C9A84C" stop-opacity="0.18"/>
+  <!-- Warm gold glow at the meeting point of hands -->
+  <radialGradient id="meetGlow" cx="50%" cy="58%" r="28%">
+    <stop offset="0%" stop-color="#C9A84C" stop-opacity="0.22"/>
     <stop offset="100%" stop-color="#C9A84C" stop-opacity="0"/>
   </radialGradient>
-  <ellipse cx="178" cy="255" rx="90" ry="70" fill="url(#joinGlow)"/>
+  <ellipse cx="170" cy="265" rx="100" ry="80" fill="url(#meetGlow)"/>
 
-  <!-- Bottom gradient overlay -->
-  <rect x="0" y="340" width="340" height="120" fill="url(#shadowGrad)"/>
+  <!-- Bottom fade for quote text legibility -->
+  <rect x="0" y="0" width="340" height="460" fill="url(#bottomFade)"/>
 
-  <!-- Gold particle dots -->
-  <circle cx="60" cy="60" r="1.5" fill="#C9A84C" fill-opacity="0.4">
-    <animate attributeName="opacity" values="0.4;0.8;0.4" dur="3s" repeatCount="indefinite"/>
+  <!-- Animated gold particles -->
+  <circle cx="40" cy="80" r="1.5" fill="#C9A84C" fill-opacity="0.5">
+    <animate attributeName="opacity" values="0.5;1;0.5" dur="2.8s" repeatCount="indefinite"/>
   </circle>
-  <circle cx="280" cy="100" r="1" fill="#C9A84C" fill-opacity="0.3">
-    <animate attributeName="opacity" values="0.3;0.7;0.3" dur="4s" repeatCount="indefinite"/>
+  <circle cx="300" cy="50" r="1" fill="#C9A84C" fill-opacity="0.4">
+    <animate attributeName="opacity" values="0.4;0.8;0.4" dur="3.5s" repeatCount="indefinite"/>
   </circle>
-  <circle cx="300" cy="380" r="1.5" fill="#C9A84C" fill-opacity="0.35">
-    <animate attributeName="opacity" values="0.35;0.7;0.35" dur="2.5s" repeatCount="indefinite"/>
+  <circle cx="20" cy="400" r="1.5" fill="#C9A84C" fill-opacity="0.35">
+    <animate attributeName="opacity" values="0.35;0.7;0.35" dur="4s" repeatCount="indefinite"/>
   </circle>
-  <circle cx="40" cy="360" r="1" fill="#C9A84C" fill-opacity="0.3">
-    <animate attributeName="opacity" values="0.3;0.6;0.3" dur="3.5s" repeatCount="indefinite"/>
+  <circle cx="320" cy="420" r="1" fill="#C9A84C" fill-opacity="0.4">
+    <animate attributeName="opacity" values="0.4;0.8;0.4" dur="2.5s" repeatCount="indefinite"/>
   </circle>
 </svg>
-        <div style="position:absolute;inset:0;background:linear-gradient(to top, rgba(14,11,7,0.9) 0%, transparent 55%);z-index:2;pointer-events:none;"></div>
-        <div class="frame-content" style="z-index:3;justify-content:flex-end;padding-bottom:32px;">
-          <p class="frame-quote">"The stories we don't write down die with the people who lived them."</p>
-          <p class="frame-attr">— The Virasat Ghar Promise</p>
-        </div>
       </div>
-      <div class="frame-bottom">
+      <div style="position:absolute;inset:0;z-index:3;display:flex;flex-direction:column;justify-content:flex-end;padding:32px;background:linear-gradient(to top, rgba(14,11,7,0.85) 0%, transparent 50%);">
+        <p class="frame-quote" style="font-family:'Playfair Display',serif;font-size:14px;font-style:italic;color:rgba(245,237,216,0.75);line-height:1.7;margin-bottom:12px;">"The stories we don't write down die with the people who lived them."</p>
+        <p class="frame-attr" style="font-size:9px;letter-spacing:3px;text-transform:uppercase;color:rgba(184,137,42,0.6);">— The Virasat Ghar Promise</p>
+      </div>
+    </div>
+    <div class="frame-bottom">
         <p class="frame-bottom-text">Est. 2026 · Noida, India</p>
       </div>
     </div>
@@ -1459,7 +1444,7 @@ footer {
   </div>
   <div class="about-right reveal">
     <div class="about-stat">
-      <div class="stat-num">6+</div>
+      <div class="stat-num">10+</div>
       <div class="stat-label">Years of storytelling<br>& writing experience</div>
     </div>
     <div class="about-stat">
@@ -1467,7 +1452,7 @@ footer {
       <div class="stat-label">Carefully crafted<br>interview questions</div>
     </div>
     <div class="about-stat">
-      <div class="stat-num">3</div>
+      <div class="stat-num">4</div>
       <div class="stat-label">Packages tailored<br>to every family</div>
     </div>
     <div class="about-stat">

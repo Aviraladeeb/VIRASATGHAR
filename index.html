@@ -1,0 +1,1668 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Virasat Ghar — घर जहाँ कहानियाँ जीती हैं</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,500&family=DM+Sans:wght@200;300;400;500&family=Noto+Serif+Devanagari:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink:    #0E0B07;
+  --parch:  #F5EDD8;
+  --parch2: #EDE0C4;
+  --gold:   #B8892A;
+  --gold2:  #D4A843;
+  --gold3:  #F0C866;
+  --rust:   #8B3A1A;
+  --sage:   #4A5C4E;
+  --cream:  #FAF5EC;
+  --white:  #FFFFFF;
+  --mid:    #4A3F30;
+  --lite:   #9A8E7A;
+}
+
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; overflow-x: hidden; }
+
+body {
+  background: var(--ink);
+  color: var(--parch);
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 300;
+  overflow-x: hidden;
+  cursor: none;
+}
+
+/* ── CUSTOM CURSOR ─────────────────────────── */
+.cursor {
+  width: 8px; height: 8px;
+  background: var(--gold2);
+  border-radius: 50%;
+  position: fixed;
+  pointer-events: none;
+  z-index: 99999;
+  transition: transform 0.15s ease, opacity 0.3s;
+  transform: translate(-50%, -50%);
+}
+.cursor-ring {
+  width: 36px; height: 36px;
+  border: 1px solid rgba(184,137,42,0.4);
+  border-radius: 50%;
+  position: fixed;
+  pointer-events: none;
+  z-index: 99998;
+  transition: transform 0.4s cubic-bezier(0.23,1,0.32,1), width 0.3s, height 0.3s, border-color 0.3s;
+  transform: translate(-50%, -50%);
+}
+body:hover .cursor { opacity: 1; }
+
+/* ── NOISE TEXTURE ─────────────────────────── */
+body::after {
+  content: '';
+  position: fixed; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
+  pointer-events: none; z-index: 9997; opacity: 0.4; mix-blend-mode: overlay;
+}
+
+/* ── LOADING SCREEN ────────────────────────── */
+#loader {
+  position: fixed; inset: 0;
+  background: var(--ink);
+  z-index: 9000;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  transition: opacity 0.8s ease, visibility 0.8s ease;
+}
+#loader.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+
+.loader-text {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(32px, 6vw, 64px);
+  font-weight: 400;
+  color: var(--gold2);
+  letter-spacing: 8px;
+  opacity: 0;
+  animation: loaderFade 0.8s ease 0.3s forwards;
+}
+.loader-dev {
+  font-family: 'Noto Serif Devanagari', serif;
+  font-size: 16px;
+  color: rgba(212,168,67,0.4);
+  letter-spacing: 4px;
+  margin-top: 8px;
+  opacity: 0;
+  animation: loaderFade 0.8s ease 0.6s forwards;
+}
+.loader-bar {
+  width: 200px; height: 1px;
+  background: rgba(184,137,42,0.2);
+  margin-top: 32px;
+  position: relative; overflow: hidden;
+}
+.loader-bar::after {
+  content: '';
+  position: absolute; left: -100%; top: 0;
+  width: 100%; height: 100%;
+  background: linear-gradient(90deg, transparent, var(--gold2), transparent);
+  animation: loaderBar 1.5s ease 0.5s forwards;
+}
+@keyframes loaderFade { to { opacity: 1; } }
+@keyframes loaderBar { to { left: 100%; } }
+
+/* ── NAV ───────────────────────────────────── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0;
+  z-index: 500;
+  padding: 28px 60px;
+  display: flex; justify-content: space-between; align-items: center;
+  transition: background 0.5s, padding 0.4s;
+}
+nav.scrolled {
+  background: rgba(14,11,7,0.92);
+  backdrop-filter: blur(12px);
+  padding: 18px 60px;
+  border-bottom: 1px solid rgba(184,137,42,0.12);
+}
+
+.nav-logo {
+  font-family: 'Playfair Display', serif;
+  font-size: 20px;
+  font-weight: 500;
+  color: var(--gold2);
+  letter-spacing: 3px;
+  text-decoration: none;
+  display: flex; flex-direction: column; gap: 2px;
+}
+.nav-logo-dev {
+  font-family: 'Noto Serif Devanagari', serif;
+  font-size: 11px;
+  color: rgba(212,168,67,0.45);
+  letter-spacing: 2px;
+}
+
+.nav-links {
+  display: flex; gap: 36px; list-style: none;
+}
+.nav-links a {
+  color: rgba(245,237,216,0.55);
+  text-decoration: none;
+  font-size: 11px;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  font-weight: 400;
+  transition: color 0.3s;
+  position: relative;
+}
+.nav-links a::after {
+  content: '';
+  position: absolute; bottom: -3px; left: 0;
+  width: 0; height: 1px;
+  background: var(--gold2);
+  transition: width 0.3s ease;
+}
+.nav-links a:hover { color: var(--gold2); }
+.nav-links a:hover::after { width: 100%; }
+
+.nav-cta {
+  background: transparent;
+  border: 1px solid rgba(184,137,42,0.5);
+  color: var(--gold2);
+  padding: 10px 24px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 10px;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  cursor: none;
+  transition: all 0.3s;
+  text-decoration: none;
+}
+.nav-cta:hover {
+  background: var(--gold);
+  color: var(--ink);
+  border-color: var(--gold);
+}
+
+/* ── HERO ──────────────────────────────────── */
+.hero {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Animated background */
+.hero-bg {
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse 70% 80% at 30% 50%, rgba(184,137,42,0.06) 0%, transparent 65%),
+              radial-gradient(ellipse 50% 60% at 80% 20%, rgba(139,58,26,0.05) 0%, transparent 60%),
+              linear-gradient(160deg, #0E0B07 0%, #13100A 40%, #0A0805 100%);
+}
+
+/* Floating particles */
+.particles {
+  position: absolute; inset: 0;
+  pointer-events: none;
+}
+.particle {
+  position: absolute;
+  width: 2px; height: 2px;
+  background: var(--gold3);
+  border-radius: 50%;
+  opacity: 0;
+  animation: floatParticle var(--dur) ease-in-out var(--delay) infinite;
+}
+@keyframes floatParticle {
+  0% { opacity: 0; transform: translateY(0) scale(0.5); }
+  20% { opacity: var(--op); }
+  80% { opacity: var(--op); }
+  100% { opacity: 0; transform: translateY(-120px) scale(1); }
+}
+
+/* Vertical decorative line */
+.hero-vline {
+  position: absolute;
+  left: 50%; top: 0; bottom: 0;
+  width: 1px;
+  background: linear-gradient(to bottom,
+    transparent 0%,
+    rgba(184,137,42,0.2) 20%,
+    rgba(184,137,42,0.2) 80%,
+    transparent 100%);
+  transform: scaleY(0);
+  transform-origin: top;
+  animation: growLine 1.5s ease 1.2s forwards;
+}
+@keyframes growLine { to { transform: scaleY(1); } }
+
+.hero-left {
+  position: relative; z-index: 2;
+  padding: 160px 60px 80px;
+  display: flex; flex-direction: column; justify-content: center;
+}
+
+.hero-eyebrow {
+  display: flex; align-items: center; gap: 16px;
+  margin-bottom: 36px;
+  opacity: 0; transform: translateY(16px);
+  animation: fadeUp 0.9s ease 1.4s forwards;
+}
+.eyebrow-line {
+  width: 40px; height: 1px;
+  background: var(--gold);
+}
+.eyebrow-text {
+  font-size: 9px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--gold);
+  font-weight: 400;
+}
+
+.hero-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(48px, 5.5vw, 82px);
+  font-weight: 400;
+  line-height: 1.08;
+  letter-spacing: -1px;
+  margin-bottom: 16px;
+  opacity: 0; transform: translateY(24px);
+  animation: fadeUp 1s ease 1.6s forwards;
+}
+.hero-title em {
+  font-style: italic;
+  color: var(--gold2);
+  display: block;
+}
+
+.hero-dev-title {
+  font-family: 'Noto Serif Devanagari', serif;
+  font-size: 22px;
+  color: rgba(184,137,42,0.4);
+  margin-bottom: 40px;
+  letter-spacing: 3px;
+  opacity: 0; transform: translateY(16px);
+  animation: fadeUp 0.9s ease 1.8s forwards;
+}
+
+.hero-desc {
+  font-size: 16px;
+  line-height: 1.85;
+  color: rgba(245,237,216,0.6);
+  max-width: 440px;
+  margin-bottom: 52px;
+  font-weight: 300;
+  opacity: 0; transform: translateY(16px);
+  animation: fadeUp 0.9s ease 2s forwards;
+}
+.hero-desc strong { color: rgba(245,237,216,0.9); font-weight: 400; }
+
+.hero-btns {
+  display: flex; gap: 20px; align-items: center;
+  opacity: 0; transform: translateY(16px);
+  animation: fadeUp 0.9s ease 2.2s forwards;
+}
+
+.btn-gold {
+  background: var(--gold);
+  color: var(--ink);
+  padding: 16px 40px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 10px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  font-weight: 500;
+  border: none; cursor: none;
+  text-decoration: none;
+  display: inline-block;
+  transition: all 0.35s;
+  position: relative; overflow: hidden;
+}
+.btn-gold::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: var(--gold3);
+  transform: translateX(-100%);
+  transition: transform 0.35s ease;
+}
+.btn-gold:hover::before { transform: translateX(0); }
+.btn-gold span { position: relative; z-index: 1; }
+
+.btn-outline {
+  color: rgba(245,237,216,0.55);
+  font-size: 10px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(245,237,216,0.2);
+  padding-bottom: 2px;
+  transition: all 0.3s;
+}
+.btn-outline:hover { color: var(--gold2); border-color: var(--gold2); }
+
+/* Hero right — visual composition */
+.hero-right {
+  position: relative; z-index: 2;
+  display: flex; align-items: center; justify-content: center;
+  padding: 160px 60px 80px;
+  opacity: 0;
+  animation: fadeIn 1.5s ease 1.8s forwards;
+}
+
+.hero-visual {
+  position: relative;
+  width: 340px; height: 460px;
+}
+
+/* Rotating ring */
+.ring-outer {
+  position: absolute;
+  width: 360px; height: 360px;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  border: 1px solid rgba(184,137,42,0.12);
+  border-radius: 50%;
+  animation: rotateSlow 40s linear infinite;
+}
+.ring-outer::before {
+  content: '';
+  position: absolute;
+  width: 6px; height: 6px;
+  background: var(--gold2);
+  border-radius: 50%;
+  top: -3px; left: 50%;
+  transform: translateX(-50%);
+  box-shadow: 0 0 12px rgba(212,168,67,0.6);
+}
+.ring-inner {
+  position: absolute;
+  width: 280px; height: 280px;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  border: 1px solid rgba(184,137,42,0.07);
+  border-radius: 50%;
+  animation: rotateSlow 28s linear infinite reverse;
+}
+
+@keyframes rotateSlow { to { transform: translate(-50%, -50%) rotate(360deg); } }
+
+/* Central frame */
+.hero-frame {
+  position: absolute;
+  inset: 0;
+  border: 1px solid rgba(184,137,42,0.25);
+}
+.corner-deco {
+  position: absolute;
+  width: 20px; height: 20px;
+}
+.corner-deco.tl { top: -1px; left: -1px; border-top: 2px solid var(--gold); border-left: 2px solid var(--gold); }
+.corner-deco.tr { top: -1px; right: -1px; border-top: 2px solid var(--gold); border-right: 2px solid var(--gold); }
+.corner-deco.bl { bottom: -1px; left: -1px; border-bottom: 2px solid var(--gold); border-left: 2px solid var(--gold); }
+.corner-deco.br { bottom: -1px; right: -1px; border-bottom: 2px solid var(--gold); border-right: 2px solid var(--gold); }
+
+.frame-inner {
+  position: absolute;
+  inset: 16px;
+  border: 1px solid rgba(184,137,42,0.1);
+}
+
+.frame-bg {
+  position: absolute; inset: 0;
+  background:
+    linear-gradient(160deg, rgba(184,137,42,0.04) 0%, transparent 50%),
+    repeating-linear-gradient(45deg, transparent, transparent 8px, rgba(184,137,42,0.015) 8px, rgba(184,137,42,0.015) 9px);
+}
+
+.frame-content {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column;
+  justify-content: center; align-items: center;
+  padding: 40px;
+  text-align: center;
+}
+
+.frame-icon-wrap {
+  width: 80px; height: 80px;
+  border: 1px solid rgba(184,137,42,0.3);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 32px;
+  margin-bottom: 28px;
+  position: relative;
+  animation: iconPulse 4s ease infinite;
+}
+@keyframes iconPulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(184,137,42,0.2); }
+  50% { box-shadow: 0 0 0 20px rgba(184,137,42,0); }
+}
+
+.frame-quote {
+  font-family: 'Playfair Display', serif;
+  font-size: 15px;
+  font-style: italic;
+  color: rgba(245,237,216,0.65);
+  line-height: 1.7;
+  margin-bottom: 20px;
+}
+
+.frame-attr {
+  font-size: 9px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: rgba(184,137,42,0.5);
+}
+
+/* Bottom caption */
+.frame-bottom {
+  position: absolute;
+  bottom: -48px; left: 0; right: 0;
+  text-align: center;
+}
+.frame-bottom-text {
+  font-size: 9px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: rgba(184,137,42,0.4);
+}
+
+/* ── MARQUEE STRIP ─────────────────────────── */
+.marquee-strip {
+  background: var(--gold);
+  padding: 14px 0;
+  overflow: hidden;
+  position: relative;
+}
+.marquee-track {
+  display: flex;
+  animation: marquee 20s linear infinite;
+  white-space: nowrap;
+}
+.marquee-item {
+  display: inline-flex; align-items: center; gap: 20px;
+  padding: 0 24px;
+  font-size: 10px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--ink);
+  font-weight: 500;
+}
+.marquee-dot {
+  width: 4px; height: 4px;
+  background: var(--ink);
+  border-radius: 50%; flex-shrink: 0;
+  opacity: 0.4;
+}
+@keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+/* ── ABOUT SECTION ─────────────────────────── */
+.about {
+  padding: 140px 60px;
+  display: grid;
+  grid-template-columns: 1fr 1.4fr;
+  gap: 100px;
+  align-items: center;
+  position: relative;
+}
+
+.about-left .sec-num {
+  font-family: 'Playfair Display', serif;
+  font-size: 120px;
+  font-weight: 400;
+  color: rgba(184,137,42,0.06);
+  line-height: 1;
+  margin-bottom: -20px;
+}
+.about-left .sec-label {
+  font-size: 9px;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 20px;
+}
+.about-left h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(32px, 3.5vw, 48px);
+  font-weight: 400;
+  line-height: 1.2;
+  margin-bottom: 24px;
+}
+.about-left h2 em { font-style: italic; color: var(--gold2); }
+
+.about-left .divider {
+  width: 50px; height: 1px;
+  background: var(--gold);
+  margin-bottom: 28px;
+}
+
+.about-left p {
+  font-size: 15px;
+  line-height: 1.9;
+  color: rgba(245,237,216,0.58);
+  font-weight: 300;
+  margin-bottom: 16px;
+}
+.about-left p strong { color: rgba(245,237,216,0.85); font-weight: 400; }
+
+.about-right {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+}
+
+.about-stat {
+  background: rgba(245,237,216,0.03);
+  border: 1px solid rgba(184,137,42,0.08);
+  padding: 36px 28px;
+  transition: background 0.4s, border-color 0.4s;
+  position: relative; overflow: hidden;
+}
+.about-stat::before {
+  content: '';
+  position: absolute; top: 0; left: 0;
+  width: 2px; height: 0;
+  background: var(--gold);
+  transition: height 0.4s ease;
+}
+.about-stat:hover { background: rgba(184,137,42,0.05); border-color: rgba(184,137,42,0.2); }
+.about-stat:hover::before { height: 100%; }
+
+.stat-num {
+  font-family: 'Playfair Display', serif;
+  font-size: 40px;
+  font-weight: 400;
+  color: var(--gold2);
+  line-height: 1;
+  margin-bottom: 8px;
+}
+.stat-label {
+  font-size: 11px;
+  color: rgba(245,237,216,0.45);
+  letter-spacing: 1px;
+  line-height: 1.5;
+}
+
+/* ── PACKAGES ──────────────────────────────── */
+.packages {
+  padding: 100px 60px;
+  background: linear-gradient(to bottom, transparent, rgba(245,237,216,0.02) 50%, transparent);
+}
+
+.sec-header {
+  text-align: center;
+  margin-bottom: 70px;
+}
+.sec-header .sec-label {
+  font-size: 9px;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 16px;
+}
+.sec-header h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(34px, 4vw, 54px);
+  font-weight: 400;
+  line-height: 1.2;
+}
+.sec-header h2 em { font-style: italic; color: var(--gold2); }
+
+.packages-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2px;
+}
+
+.pkg {
+  background: rgba(245,237,216,0.025);
+  border: 1px solid rgba(184,137,42,0.1);
+  padding: 50px 36px;
+  position: relative;
+  transition: all 0.4s;
+  overflow: hidden;
+}
+.pkg::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(135deg, rgba(184,137,42,0.05) 0%, transparent 60%);
+  opacity: 0;
+  transition: opacity 0.4s;
+}
+.pkg:hover { border-color: rgba(184,137,42,0.3); background: rgba(184,137,42,0.04); }
+.pkg:hover::after { opacity: 1; }
+
+.pkg.featured {
+  background: rgba(184,137,42,0.06);
+  border-color: rgba(184,137,42,0.3);
+}
+.pkg.featured::before {
+  content: 'Most Chosen';
+  position: absolute; top: 20px; right: 20px;
+  font-size: 8px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--gold);
+  border: 1px solid rgba(184,137,42,0.3);
+  padding: 4px 10px;
+}
+
+.pkg-num {
+  font-family: 'Playfair Display', serif;
+  font-size: 64px;
+  color: rgba(184,137,42,0.08);
+  line-height: 1;
+  margin-bottom: 16px;
+  font-weight: 400;
+}
+.pkg-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 26px;
+  font-weight: 400;
+  color: var(--gold2);
+  margin-bottom: 6px;
+}
+.pkg-sub {
+  font-size: 9px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: rgba(245,237,216,0.3);
+  margin-bottom: 28px;
+}
+.pkg-divider {
+  width: 30px; height: 1px;
+  background: rgba(184,137,42,0.3);
+  margin-bottom: 24px;
+}
+.pkg-desc {
+  font-size: 14px;
+  line-height: 1.8;
+  color: rgba(245,237,216,0.5);
+  font-weight: 300;
+  margin-bottom: 32px;
+}
+.pkg-features {
+  list-style: none;
+  margin-bottom: 36px;
+}
+.pkg-features li {
+  font-size: 12px;
+  color: rgba(245,237,216,0.45);
+  padding: 7px 0;
+  border-bottom: 1px solid rgba(245,237,216,0.04);
+  display: flex; align-items: center; gap: 10px;
+}
+.pkg-features li::before {
+  content: '';
+  width: 4px; height: 4px;
+  background: var(--gold);
+  border-radius: 50%; flex-shrink: 0;
+}
+.pkg-price {
+  font-family: 'Playfair Display', serif;
+  font-size: 20px;
+  color: var(--gold2);
+  font-weight: 400;
+}
+.pkg-price-sub {
+  font-size: 10px;
+  color: rgba(245,237,216,0.25);
+  letter-spacing: 1px;
+  margin-top: 4px;
+}
+
+/* ── ARCHIVE PREVIEW ───────────────────────── */
+.archive {
+  padding: 100px 60px;
+  background: var(--cream);
+  color: var(--ink);
+  position: relative;
+  overflow: hidden;
+}
+.archive::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+}
+
+.archive .sec-label { color: rgba(74,63,48,0.5); }
+.archive h2 { color: var(--ink); }
+.archive h2 em { color: var(--gold); }
+
+.archive-layout {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 80px;
+  margin-top: 60px;
+  align-items: start;
+}
+
+/* Browser mockup */
+.browser {
+  background: var(--ink);
+  border-radius: 4px;
+  overflow: hidden;
+  box-shadow: 0 50px 100px rgba(14,11,7,0.4), 0 0 0 1px rgba(184,137,42,0.1);
+  transform: perspective(1000px) rotateY(-4deg) rotateX(2deg);
+  transition: transform 0.6s ease;
+}
+.browser:hover { transform: perspective(1000px) rotateY(0deg) rotateX(0deg); }
+
+.browser-bar {
+  background: #1A1410;
+  padding: 12px 16px;
+  display: flex; align-items: center; gap: 8px;
+  border-bottom: 1px solid rgba(184,137,42,0.1);
+}
+.b-dot { width: 10px; height: 10px; border-radius: 50%; }
+.browser-url {
+  flex: 1; margin: 0 8px;
+  background: rgba(245,237,216,0.04);
+  padding: 5px 12px;
+  border-radius: 3px;
+  font-size: 10px;
+  font-family: monospace;
+  color: rgba(245,237,216,0.3);
+  display: flex; align-items: center; gap: 6px;
+}
+.lock-icon { color: rgba(184,137,42,0.6); font-size: 10px; }
+
+.browser-body { padding: 28px; }
+
+.b-family-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 22px;
+  font-weight: 400;
+  color: var(--gold2);
+  margin-bottom: 4px;
+}
+.b-family-sub {
+  font-size: 9px;
+  letter-spacing: 3px;
+  color: rgba(245,237,216,0.25);
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
+
+.b-progress {
+  height: 1px;
+  background: rgba(184,137,42,0.1);
+  margin-bottom: 20px;
+  position: relative;
+}
+.b-progress-fill {
+  position: absolute; top: 0; left: 0;
+  width: 65%; height: 100%;
+  background: linear-gradient(90deg, var(--gold), var(--gold3));
+}
+
+.b-chapters { display: grid; gap: 1px; }
+.b-chapter {
+  background: rgba(245,237,216,0.025);
+  padding: 12px 16px;
+  display: flex; align-items: center; justify-content: space-between;
+  transition: background 0.2s;
+}
+.b-chapter:hover { background: rgba(245,237,216,0.05); }
+.b-chapter-left { display: flex; align-items: center; gap: 14px; }
+.b-ch-num {
+  font-family: 'Playfair Display', serif;
+  font-size: 18px;
+  color: rgba(184,137,42,0.25);
+  min-width: 24px;
+}
+.b-ch-title { font-size: 12px; color: rgba(245,237,216,0.55); }
+.b-ch-tag {
+  font-size: 8px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: rgba(184,137,42,0.5);
+  border: 1px solid rgba(184,137,42,0.2);
+  padding: 2px 7px;
+}
+
+.b-media-row {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 3px;
+  margin-top: 16px;
+}
+.b-media-thumb {
+  aspect-ratio: 1;
+  background: rgba(184,137,42,0.06);
+  border: 1px solid rgba(184,137,42,0.08);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px;
+  color: rgba(184,137,42,0.2);
+  font-size: 12px;
+}
+
+/* Archive features */
+.archive-features { display: grid; gap: 0; }
+.arch-feat {
+  padding: 28px 0;
+  border-bottom: 1px solid rgba(74,63,48,0.1);
+  display: flex; gap: 20px;
+  transition: padding-left 0.3s;
+}
+.arch-feat:hover { padding-left: 8px; }
+.arch-feat:last-child { border-bottom: none; }
+.arch-icon {
+  width: 44px; height: 44px;
+  background: var(--ink);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px; flex-shrink: 0;
+}
+.arch-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 17px;
+  font-weight: 400;
+  color: var(--ink);
+  margin-bottom: 6px;
+}
+.arch-desc {
+  font-size: 13px;
+  line-height: 1.7;
+  color: rgba(74,63,48,0.6);
+  font-weight: 300;
+}
+
+/* ── PRIVACY ───────────────────────────────── */
+.privacy {
+  padding: 120px 60px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.privacy-bg {
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse 60% 80% at 50% 50%, rgba(184,137,42,0.04) 0%, transparent 70%);
+}
+
+.privacy-lockup {
+  position: relative; z-index: 1;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.privacy-rings {
+  position: relative;
+  width: 140px; height: 140px;
+  margin: 0 auto 48px;
+}
+.p-ring {
+  position: absolute; inset: 0;
+  border: 1px solid rgba(184,137,42,0.15);
+  border-radius: 50%;
+  animation: pulseRing 3s ease infinite;
+}
+.p-ring:nth-child(2) {
+  inset: 20px;
+  border-color: rgba(184,137,42,0.2);
+  animation-delay: -1s;
+}
+.p-ring:nth-child(3) {
+  inset: 40px;
+  border-color: rgba(184,137,42,0.3);
+  animation-delay: -2s;
+}
+.p-lock {
+  position: absolute; inset: 55px;
+  background: rgba(184,137,42,0.1);
+  border: 1px solid rgba(184,137,42,0.4);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px;
+  animation: lockGlow 3s ease infinite;
+}
+@keyframes pulseRing {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.04); opacity: 0.6; }
+}
+@keyframes lockGlow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(184,137,42,0); }
+  50% { box-shadow: 0 0 20px 4px rgba(184,137,42,0.15); }
+}
+
+.privacy h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(28px, 3.5vw, 46px);
+  font-weight: 400;
+  line-height: 1.3;
+  margin-bottom: 20px;
+}
+.privacy h2 em { font-style: italic; color: var(--gold2); }
+
+.privacy-sub {
+  font-size: 15px;
+  color: rgba(245,237,216,0.5);
+  line-height: 1.8;
+  margin-bottom: 48px;
+  font-weight: 300;
+}
+
+.privacy-pills {
+  display: flex; flex-wrap: wrap;
+  gap: 12px; justify-content: center;
+}
+.privacy-pill {
+  border: 1px solid rgba(184,137,42,0.2);
+  padding: 10px 20px;
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: rgba(245,237,216,0.5);
+  transition: all 0.3s;
+}
+.privacy-pill:hover {
+  border-color: var(--gold);
+  color: var(--gold2);
+  background: rgba(184,137,42,0.05);
+}
+
+/* ── QUOTE ─────────────────────────────────── */
+.quote-wrap {
+  padding: 100px 60px;
+  background: rgba(184,137,42,0.04);
+  border-top: 1px solid rgba(184,137,42,0.1);
+  border-bottom: 1px solid rgba(184,137,42,0.1);
+}
+.quote-inner {
+  max-width: 840px;
+  margin: 0 auto;
+  text-align: center;
+}
+.quote-mark {
+  font-family: 'Playfair Display', serif;
+  font-size: 100px;
+  color: rgba(184,137,42,0.12);
+  line-height: 0.6;
+  margin-bottom: 32px;
+}
+.quote-text {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(20px, 2.8vw, 32px);
+  font-style: italic;
+  font-weight: 400;
+  line-height: 1.65;
+  color: rgba(245,237,216,0.82);
+  margin-bottom: 28px;
+}
+.quote-src {
+  font-size: 9px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+/* ── FOUNDER ───────────────────────────────── */
+.founder-section {
+  padding: 120px 60px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: center;
+}
+
+.founder-visual {
+  position: relative;
+  height: 400px;
+}
+.founder-frame {
+  position: absolute; inset: 0;
+  border: 1px solid rgba(184,137,42,0.2);
+}
+.founder-frame-inner {
+  position: absolute; inset: 20px;
+  border: 1px solid rgba(184,137,42,0.08);
+}
+.founder-bg {
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse at 50% 50%, rgba(184,137,42,0.06) 0%, transparent 70%),
+    repeating-linear-gradient(45deg, transparent, transparent 12px, rgba(184,137,42,0.015) 12px, rgba(184,137,42,0.015) 13px);
+  display: flex; align-items: center; justify-content: center;
+}
+.founder-initials {
+  font-family: 'Playfair Display', serif;
+  font-size: 120px;
+  font-weight: 400;
+  color: rgba(184,137,42,0.08);
+  line-height: 1;
+  letter-spacing: -8px;
+}
+.founder-badge {
+  position: absolute;
+  bottom: 28px; left: 28px;
+  background: var(--ink);
+  border: 1px solid rgba(184,137,42,0.25);
+  padding: 14px 20px;
+}
+.founder-badge-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 15px;
+  color: var(--gold2);
+  margin-bottom: 3px;
+}
+.founder-badge-role {
+  font-size: 9px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: rgba(245,237,216,0.3);
+}
+
+.founder-text .sec-label {
+  font-size: 9px;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 20px;
+}
+.founder-text h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(30px, 3.5vw, 46px);
+  font-weight: 400;
+  line-height: 1.2;
+  margin-bottom: 24px;
+}
+.founder-text h2 em { font-style: italic; color: var(--gold2); }
+.founder-text .divider {
+  width: 40px; height: 1px;
+  background: var(--gold);
+  margin-bottom: 24px;
+}
+.founder-text p {
+  font-size: 15px;
+  line-height: 1.9;
+  color: rgba(245,237,216,0.55);
+  font-weight: 300;
+  margin-bottom: 14px;
+}
+.founder-creds {
+  margin-top: 28px;
+  display: flex; flex-direction: column; gap: 10px;
+}
+.cred {
+  display: flex; align-items: center; gap: 14px;
+  font-size: 12px;
+  color: rgba(245,237,216,0.45);
+}
+.cred::before {
+  content: '';
+  width: 4px; height: 4px;
+  background: var(--gold);
+  border-radius: 50%; flex-shrink: 0;
+}
+
+/* ── FOOTER ────────────────────────────────── */
+footer {
+  background: #080604;
+  padding: 60px;
+  border-top: 1px solid rgba(184,137,42,0.12);
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 40px;
+  align-items: end;
+}
+.footer-brand .f-logo {
+  font-family: 'Playfair Display', serif;
+  font-size: 26px;
+  color: var(--gold2);
+  letter-spacing: 4px;
+  font-weight: 400;
+  margin-bottom: 4px;
+}
+.footer-brand .f-dev {
+  font-family: 'Noto Serif Devanagari', serif;
+  font-size: 12px;
+  color: rgba(184,137,42,0.3);
+  margin-bottom: 12px;
+}
+.footer-brand .f-tag {
+  font-size: 10px;
+  color: rgba(245,237,216,0.2);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+.footer-links { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+.footer-links a {
+  color: rgba(245,237,216,0.3);
+  text-decoration: none;
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  transition: color 0.3s;
+}
+.footer-links a:hover { color: var(--gold2); }
+.footer-contact {
+  text-align: right;
+  font-size: 12px;
+  color: rgba(245,237,216,0.3);
+  line-height: 2;
+}
+.footer-contact a { color: var(--gold2); text-decoration: none; }
+.footer-bottom {
+  background: #080604;
+  padding: 20px 60px;
+  border-top: 1px solid rgba(245,237,216,0.04);
+  display: flex; justify-content: space-between; align-items: center;
+}
+.footer-bottom p {
+  font-size: 10px;
+  color: rgba(245,237,216,0.15);
+  letter-spacing: 1px;
+}
+
+/* ── SCROLL REVEAL ─────────────────────────── */
+.reveal {
+  opacity: 0; transform: translateY(32px);
+  transition: opacity 0.9s ease, transform 0.9s ease;
+}
+.reveal.vis { opacity: 1; transform: translateY(0); }
+.reveal-d1 { transition-delay: 0.1s; }
+.reveal-d2 { transition-delay: 0.2s; }
+.reveal-d3 { transition-delay: 0.3s; }
+.reveal-left {
+  opacity: 0; transform: translateX(-32px);
+  transition: opacity 0.9s ease, transform 0.9s ease;
+}
+.reveal-left.vis { opacity: 1; transform: translateX(0); }
+
+/* ── UTILS ─────────────────────────────────── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  nav { padding: 20px 24px; }
+  nav.scrolled { padding: 14px 24px; }
+  .nav-links { display: none; }
+  .hero { grid-template-columns: 1fr; }
+  .hero-right { display: none; }
+  .hero-left { padding: 120px 24px 60px; }
+  .about { grid-template-columns: 1fr; padding: 80px 24px; gap: 50px; }
+  .packages { padding: 80px 24px; }
+  .packages-grid { grid-template-columns: 1fr; }
+  .archive { padding: 80px 24px; }
+  .archive-layout { grid-template-columns: 1fr; gap: 40px; }
+  .privacy { padding: 80px 24px; }
+  .founder-section { grid-template-columns: 1fr; padding: 80px 24px; gap: 40px; }
+  .founder-visual { height: 260px; }
+  footer { grid-template-columns: 1fr; padding: 40px 24px; }
+  .footer-contact { text-align: left; }
+  .footer-bottom { flex-direction: column; gap: 8px; padding: 20px 24px; }
+}
+</style>
+</head>
+<body>
+
+<!-- Cursor -->
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- Loader -->
+<div id="loader">
+  <p class="loader-text">VIRASAT GHAR</p>
+  <p class="loader-dev">विरासत घर</p><p style="font-family:'DM Sans',sans-serif;font-size:9px;letter-spacing:4px;text-transform:uppercase;color:rgba(184,137,42,0.25);margin-top:6px;opacity:0;animation:loaderFade 0.8s ease 0.9s forwards;">The House of Legacy</p>
+  <div class="loader-bar"></div>
+</div>
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="#" class="nav-logo">
+    Virasat Ghar
+    <span class="nav-logo-dev">विरासत घर</span><span style="font-family:'DM Sans',sans-serif;font-size:8px;letter-spacing:3px;text-transform:uppercase;color:rgba(184,137,42,0.3);font-weight:300;">The House of Legacy</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#about">Our Purpose</a></li>
+    <li><a href="#packages">Packages</a></li>
+    <li><a href="#archive">The Archive</a></li>
+    <li><a href="#founder">About</a></li>
+  </ul>
+  <a href="#packages" class="nav-cta">Preserve Your Legacy</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-vline"></div>
+
+  <!-- Particles -->
+  <div class="particles" id="particles"></div>
+
+  <div class="hero-left">
+    <div class="hero-eyebrow">
+      <div class="eyebrow-line"></div>
+      <span class="eyebrow-text">India's First Private Family Legacy Studio</span>
+    </div>
+
+    <h1 class="hero-title">
+      Stories that deserve<br>
+      to live<br>
+      <em>beyond time.</em>
+    </h1>
+
+    <p class="hero-dev-title">घर जहाँ कहानियाँ जीती हैं</p><p style="font-family:'DM Sans',sans-serif;font-size:9px;letter-spacing:4px;text-transform:uppercase;color:rgba(184,137,42,0.35);margin-bottom:40px;margin-top:-30px;opacity:0;transform:translateY(16px);animation:fadeUp 0.9s ease 1.95s forwards;">The House of Legacy</p>
+
+    <p class="hero-desc">
+      We sit with your elders. We listen until the <strong>real story</strong> surfaces.
+      We write it with literary craft and build your family
+      a private digital home — protected, permanent,
+      and <strong>only yours.</strong>
+    </p>
+
+    <div class="hero-btns">
+      <a href="#packages" class="btn-gold"><span>Begin Your Legacy</span></a>
+      <a href="#about" class="btn-outline">How It Works</a>
+    </div>
+  </div>
+
+  <div class="hero-right">
+    <div class="hero-visual">
+      <div class="ring-outer"></div>
+      <div class="ring-inner"></div>
+      <div class="hero-frame">
+        <div class="corner-deco tl"></div>
+        <div class="corner-deco tr"></div>
+        <div class="corner-deco bl"></div>
+        <div class="corner-deco br"></div>
+        <div class="frame-inner"></div>
+        <div class="frame-bg"></div>
+        <div class="frame-content">
+          <div class="frame-icon-wrap">🪔</div>
+          <p class="frame-quote">"The stories we don't write down die with the people who lived them."</p>
+          <p class="frame-attr">— The Virasat Ghar Promise</p>
+        </div>
+      </div>
+      <div class="frame-bottom">
+        <p class="frame-bottom-text">Est. 2026 · Noida, India</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-strip">
+  <div class="marquee-track" id="marquee">
+    <span class="marquee-item"><span class="marquee-dot"></span>Completely Private</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>Password Protected</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>Literary Craftsmanship</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>Your Story. Only Yours.</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>Elder Voices Preserved</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>Forever Accessible</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>NRI Families Welcome</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>Never on Social Media</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>Completely Private</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>Password Protected</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>Literary Craftsmanship</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>Your Story. Only Yours.</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>Elder Voices Preserved</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>Forever Accessible</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>NRI Families Welcome</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>Never on Social Media</span>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+  <div class="about-left">
+    <div class="sec-num reveal">01</div>
+    <p class="sec-label reveal">What is Virasat Ghar</p>
+    <h2 class="reveal">Every family holds <em>a story</em> the world will never know.</h2>
+    <div class="divider reveal"></div>
+    <p class="reveal">India is a country of extraordinary stories — Partition survivors, first-generation city migrants, business dynasties built from nothing. <strong>Every day, an elder passes away and takes decades of irreplaceable memory with them.</strong></p>
+    <p class="reveal">Virasat Ghar exists to make sure that never happens to your family. We interview your elders, write their stories with literary craftsmanship, and build your family a private digital archive — accessible only to you, forever.</p>
+    <p class="reveal" style="color:rgba(184,137,42,0.8); font-style: italic; font-family: 'Playfair Display', serif; font-size: 16px;">A WhatsApp recording is not a legacy.<br>A photo album is not a story.<br>Virasat Ghar is.</p>
+  </div>
+  <div class="about-right reveal">
+    <div class="about-stat">
+      <div class="stat-num">6+</div>
+      <div class="stat-label">Years of storytelling<br>& writing experience</div>
+    </div>
+    <div class="about-stat">
+      <div class="stat-num">48</div>
+      <div class="stat-label">Carefully crafted<br>interview questions</div>
+    </div>
+    <div class="about-stat">
+      <div class="stat-num">3</div>
+      <div class="stat-label">Packages tailored<br>to every family</div>
+    </div>
+    <div class="about-stat">
+      <div class="stat-num">∞</div>
+      <div class="stat-label">Generations who will<br>read your story</div>
+    </div>
+  </div>
+</section>
+
+<!-- PACKAGES -->
+<section class="packages" id="packages">
+  <div class="sec-header reveal">
+    <p class="sec-label">How We Preserve Your Story</p>
+    <h2>Three ways to honour<br>a family's <em>legacy.</em></h2>
+  </div>
+
+  <div class="packages-grid">
+    <div class="pkg reveal reveal-d1">
+      <div class="pkg-num">01</div>
+      <h3 class="pkg-name">The Story</h3>
+      <p class="pkg-sub">Entry Level</p>
+      <div class="pkg-divider"></div>
+      <p class="pkg-desc">One interview session. One beautifully written life narrative. Delivered as a premium printed keepsake your family will treasure forever.</p>
+      <ul class="pkg-features">
+        <li>2–3 hour interview session</li>
+        <li>3,000 word crafted narrative</li>
+        <li>Professionally designed PDF</li>
+        <li>Printed softcover book</li>
+        <li>Family tree & photo integration</li>
+        <li>Private PDF delivery</li>
+      </ul>
+      <div class="pkg-price">₹30,000 – ₹60,000</div>
+      <div class="pkg-price-sub">One-time project fee</div>
+    </div>
+
+    <div class="pkg featured reveal reveal-d2">
+      <div class="pkg-num">02</div>
+      <h3 class="pkg-name">The Archive</h3>
+      <p class="pkg-sub">Most Chosen</p>
+      <div class="pkg-divider"></div>
+      <p class="pkg-desc">Multiple sessions. A full family narrative. A private password-protected digital archive only your family can access — with story, photographs, audio and family tree.</p>
+      <ul class="pkg-features">
+        <li>3–4 interview sessions</li>
+        <li>8,000 word narrative</li>
+        <li>Private family website</li>
+        <li>Audio recordings of elders</li>
+        <li>Photo & document archive</li>
+        <li>Interactive family tree</li>
+        <li>Hardcover printed book</li>
+        <li>2 years hosting included</li>
+      </ul>
+      <div class="pkg-price">₹1,00,000 – ₹2,50,000</div>
+      <div class="pkg-price-sub">One-time project fee</div>
+    </div>
+
+    <div class="pkg reveal reveal-d3">
+      <div class="pkg-num">03</div>
+      <h3 class="pkg-name">The Legacy</h3>
+      <p class="pkg-sub">Premium</p>
+      <div class="pkg-divider"></div>
+      <p class="pkg-desc">Multi-generation interviews. A documentary-style video. Elder voices recorded forever. An heirloom book your great-grandchildren will open one day.</p>
+      <ul class="pkg-features">
+        <li>Multi-generation interviews</li>
+        <li>Short documentary video</li>
+        <li>Elder voice recordings</li>
+        <li>Heirloom hardbound book</li>
+        <li>Permanent hosting forever</li>
+        <li>Annual story update option</li>
+        <li>NRI remote-friendly</li>
+      </ul>
+      <div class="pkg-price">₹3,00,000 – ₹8,00,000</div>
+      <div class="pkg-price-sub">One-time project fee</div>
+    </div>
+  </div>
+</section>
+
+<!-- ARCHIVE PREVIEW -->
+<section class="archive" id="archive">
+  <div class="sec-header reveal" style="text-align:left;">
+    <p class="sec-label">The Private Digital Archive</p>
+    <h2 style="color:var(--ink)">A home for your family's<br><em>memories.</em> Forever.</h2>
+  </div>
+
+  <div class="archive-layout">
+    <div class="browser reveal">
+      <div class="browser-bar">
+        <div class="b-dot" style="background:#ff5f56"></div>
+        <div class="b-dot" style="background:#ffbd2e"></div>
+        <div class="b-dot" style="background:#27c93f"></div>
+        <div class="browser-url">
+          <span class="lock-icon">🔒</span>
+          virasatghar.in/archive/sharma-family
+        </div>
+      </div>
+      <div class="browser-body">
+        <p class="b-family-name">The Sharma Family</p>
+        <p class="b-family-sub">Private Archive · Est. 1942, Lahore</p>
+        <div class="b-progress"><div class="b-progress-fill"></div></div>
+        <div class="b-chapters">
+          <div class="b-chapter">
+            <div class="b-chapter-left">
+              <span class="b-ch-num">I</span>
+              <span class="b-ch-title">Before Partition — Lahore, 1942</span>
+            </div>
+            <span class="b-ch-tag">Story</span>
+          </div>
+          <div class="b-chapter">
+            <div class="b-chapter-left">
+              <span class="b-ch-num">II</span>
+              <span class="b-ch-title">The Journey to Delhi</span>
+            </div>
+            <span class="b-ch-tag">Story + Audio</span>
+          </div>
+          <div class="b-chapter">
+            <div class="b-chapter-left">
+              <span class="b-ch-num">III</span>
+              <span class="b-ch-title">Building a New Life</span>
+            </div>
+            <span class="b-ch-tag">Story</span>
+          </div>
+          <div class="b-chapter">
+            <div class="b-chapter-left">
+              <span class="b-ch-num">IV</span>
+              <span class="b-ch-title">Dadi Ji's Message to the Future</span>
+            </div>
+            <span class="b-ch-tag">Video</span>
+          </div>
+        </div>
+        <div class="b-media-row">
+          <div class="b-media-thumb">📷</div>
+          <div class="b-media-thumb">📷</div>
+          <div class="b-media-thumb">🎙️</div>
+          <div class="b-media-thumb">📷</div>
+          <div class="b-media-thumb" style="font-size:10px;color:rgba(184,137,42,0.5);">+24</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="archive-features">
+      <div class="arch-feat reveal">
+        <div class="arch-icon">🔒</div>
+        <div>
+          <p class="arch-title">Completely Private</p>
+          <p class="arch-desc">Password-protected. Never indexed by Google. Never on social media. Only the people you personally invite can ever see it.</p>
+        </div>
+      </div>
+      <div class="arch-feat reveal reveal-d1">
+        <div class="arch-icon">🎙️</div>
+        <div>
+          <p class="arch-title">Elder Voices, Preserved</p>
+          <p class="arch-desc">Audio and video of your elders telling their stories in their own voice — accessible from anywhere in the world, for generations.</p>
+        </div>
+      </div>
+      <div class="arch-feat reveal reveal-d2">
+        <div class="arch-icon">🌿</div>
+        <div>
+          <p class="arch-title">Living Archive</p>
+          <p class="arch-desc">Add new stories, photographs and memories every year. Your archive grows as your family does. It is never finished.</p>
+        </div>
+      </div>
+      <div class="arch-feat reveal reveal-d3">
+        <div class="arch-icon">✈️</div>
+        <div>
+          <p class="arch-title">NRI Families Welcome</p>
+          <p class="arch-desc">Complete remote service. Your elders are in India. You are in California. Your children will open this archive in a world we cannot yet imagine.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- QUOTE -->
+<div class="quote-wrap">
+  <div class="quote-inner reveal">
+    <div class="quote-mark">"</div>
+    <p class="quote-text">AI can generate a story.<br>Only Virasat Ghar can find yours.</p>
+    <p class="quote-src">— The Virasat Ghar Promise</p>
+  </div>
+</div>
+
+<!-- PRIVACY -->
+<section class="privacy">
+  <div class="privacy-bg"></div>
+  <div class="privacy-lockup reveal">
+    <div class="privacy-rings">
+      <div class="p-ring"></div>
+      <div class="p-ring"></div>
+      <div class="p-ring"></div>
+      <div class="p-lock">🔒</div>
+    </div>
+    <p class="sec-label" style="text-align:center; margin-bottom:16px;">The Privacy Promise</p>
+    <h2>Your story belongs to your family.<br><em>Only your family.</em> Always.</h2>
+    <p class="privacy-sub">Every Virasat Ghar archive is invisible to the internet. Not on Google. Not on social media. Not accessible to anyone outside the family you choose to share it with.</p>
+    <div class="privacy-pills">
+      <div class="privacy-pill">Not Indexed by Google</div>
+      <div class="privacy-pill">Password Protected</div>
+      <div class="privacy-pill">You Own Everything</div>
+      <div class="privacy-pill">Delete Anytime</div>
+      <div class="privacy-pill">Never Shared Publicly</div>
+      <div class="privacy-pill">Secure Forever</div>
+    </div>
+  </div>
+</section>
+
+<!-- FOUNDER -->
+<section class="founder-section" id="founder">
+  <div class="founder-visual reveal-left">
+    <div class="founder-frame">
+      <div class="founder-frame-inner"></div>
+      <div class="founder-bg">
+        <div class="founder-initials">AT</div>
+      </div>
+    </div>
+    <div class="founder-badge">
+      <p class="founder-badge-name">Aviral Tiwari</p>
+      <p class="founder-badge-role">Founder & Chief Storyteller</p>
+    </div>
+  </div>
+
+  <div class="founder-text reveal">
+    <p class="sec-label">The Person Behind Virasat Ghar</p>
+    <h2>A storyteller who believes<br><em>every life</em> is worth preserving.</h2>
+    <div class="divider"></div>
+    <p>When Aviral sits with your family, he does not conduct an interview — he listens until the real story surfaces. The story behind the story. The one that was never written down anywhere.</p>
+    <p>With a published novel, three released songs, a decade of storytelling and formal screenplay training from FTII — he brings both the craft and the heart that a family's legacy deserves.</p>
+    <div class="founder-creds">
+      <div class="cred">Published Author — Magical Note (Unbound Script)</div>
+      <div class="cred">Independent Lyricist — Bodh, Rangat, Maa</div>
+      <div class="cred">FTII Certified Screenplay Writer</div>
+      <div class="cred">10+ Years of Writing Experience</div>
+      <div class="cred">Instagram Storyteller @sunoaviral</div>
+      <div class="cred">Engineer & MBA — 12 Years Corporate Experience</div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-brand">
+    <p class="f-logo">VIRASAT GHAR</p>
+    <p class="f-dev">विरासत घर</p><p style="font-family:'DM Sans',sans-serif;font-size:8px;letter-spacing:3px;text-transform:uppercase;color:rgba(184,137,42,0.25);margin-bottom:8px;">The House of Legacy</p>
+    <p class="f-tag">Legacy. Preserved. Forever.</p>
+  </div>
+  <ul class="footer-links">
+    <li><a href="#about">Our Purpose</a></li>
+    <li><a href="#packages">Packages</a></li>
+    <li><a href="#archive">The Archive</a></li>
+    <li><a href="#founder">About Aviral</a></li>
+  </ul>
+  <div class="footer-contact">
+    <p>Noida, India</p>
+    <p><a href="mailto:aviraladeeb@gmail.com">aviraladeeb@gmail.com</a></p>
+    <p>+91 8178-439263</p>
+    <p><a href="https://linktr.ee/AviralAdeeb">linktr.ee/AviralAdeeb</a></p>
+  </div>
+</footer>
+<div class="footer-bottom">
+  <p>© 2026 Virasat Ghar · Noida, India · All rights reserved.</p>
+  <p>Every family has a story. We make sure it lives forever.</p>
+</div>
+
+<script>
+// ── LOADER ──────────────────────────────────
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    document.getElementById('loader').classList.add('hidden');
+  }, 2200);
+});
+
+// ── CURSOR ──────────────────────────────────
+const cursor = document.getElementById('cursor');
+const ring = document.getElementById('cursorRing');
+let mx = 0, my = 0, rx = 0, ry = 0;
+
+document.addEventListener('mousemove', e => {
+  mx = e.clientX; my = e.clientY;
+  cursor.style.left = mx + 'px';
+  cursor.style.top = my + 'px';
+});
+
+function animRing() {
+  rx += (mx - rx) * 0.12;
+  ry += (my - ry) * 0.12;
+  ring.style.left = rx + 'px';
+  ring.style.top = ry + 'px';
+  requestAnimationFrame(animRing);
+}
+animRing();
+
+document.querySelectorAll('a, button, .pkg, .about-stat, .arch-feat').forEach(el => {
+  el.addEventListener('mouseenter', () => {
+    cursor.style.transform = 'translate(-50%,-50%) scale(2)';
+    ring.style.width = '60px'; ring.style.height = '60px';
+    ring.style.borderColor = 'rgba(184,137,42,0.6)';
+  });
+  el.addEventListener('mouseleave', () => {
+    cursor.style.transform = 'translate(-50%,-50%) scale(1)';
+    ring.style.width = '36px'; ring.style.height = '36px';
+    ring.style.borderColor = 'rgba(184,137,42,0.4)';
+  });
+});
+
+// ── NAV SCROLL ──────────────────────────────
+window.addEventListener('scroll', () => {
+  document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 60);
+});
+
+// ── PARTICLES ───────────────────────────────
+const pContainer = document.getElementById('particles');
+for (let i = 0; i < 24; i++) {
+  const p = document.createElement('div');
+  p.className = 'particle';
+  p.style.cssText = `
+    left: ${Math.random() * 100}%;
+    top: ${20 + Math.random() * 70}%;
+    --dur: ${4 + Math.random() * 6}s;
+    --delay: ${Math.random() * 8}s;
+    --op: ${0.2 + Math.random() * 0.4};
+  `;
+  pContainer.appendChild(p);
+}
+
+// ── SCROLL REVEAL ───────────────────────────
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) e.target.classList.add('vis');
+  });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.reveal, .reveal-left').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>

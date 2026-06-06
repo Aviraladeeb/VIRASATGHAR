@@ -1275,9 +1275,144 @@ footer {
         <div class="corner-deco bl"></div>
         <div class="corner-deco br"></div>
         <div class="frame-inner"></div>
-        <div class="frame-bg"></div>
-        <div class="frame-content">
-          <div class="frame-icon-wrap">🤝</div>
+        <svg viewBox="0 0 340 460" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;position:absolute;inset:0;">
+  <defs>
+    <radialGradient id="bgGrad" cx="50%" cy="50%" r="60%">
+      <stop offset="0%" stop-color="#1A1208" stop-opacity="1"/>
+      <stop offset="100%" stop-color="#0E0B07" stop-opacity="1"/>
+    </radialGradient>
+    <radialGradient id="glowGold" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#C9A84C" stop-opacity="0.12"/>
+      <stop offset="100%" stop-color="#C9A84C" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="elderSkin" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#C4956A"/>
+      <stop offset="100%" stop-color="#A8744A"/>
+    </linearGradient>
+    <linearGradient id="childSkin" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#D4A574"/>
+      <stop offset="100%" stop-color="#C08850"/>
+    </linearGradient>
+    <linearGradient id="shadowGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#0E0B07" stop-opacity="0"/>
+      <stop offset="100%" stop-color="#0E0B07" stop-opacity="0.7"/>
+    </linearGradient>
+    <filter id="softShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="4" stdDeviation="8" flood-color="#000" flood-opacity="0.4"/>
+    </filter>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="340" height="460" fill="url(#bgGrad)"/>
+  <ellipse cx="170" cy="230" rx="160" ry="180" fill="url(#glowGold)"/>
+
+  <!-- Subtle grain lines -->
+  <line x1="0" y1="80" x2="340" y2="80" stroke="#C9A84C" stroke-opacity="0.04" stroke-width="1"/>
+  <line x1="0" y1="380" x2="340" y2="380" stroke="#C9A84C" stroke-opacity="0.04" stroke-width="1"/>
+
+  <!-- ELDER HAND (left, larger, wrinkled, coming from bottom-left) -->
+  <g filter="url(#softShadow)" transform="translate(20, 140)">
+    <!-- Palm of elder -->
+    <ellipse cx="100" cy="220" rx="68" ry="52" fill="url(#elderSkin)"/>
+
+    <!-- Wrinkle lines on palm -->
+    <path d="M 60 210 Q 100 205 138 212" stroke="#8B5E3C" stroke-width="1.2" stroke-opacity="0.5" fill="none"/>
+    <path d="M 55 222 Q 100 218 142 224" stroke="#8B5E3C" stroke-width="1" stroke-opacity="0.4" fill="none"/>
+    <path d="M 62 234 Q 100 230 136 236" stroke="#8B5E3C" stroke-width="0.8" stroke-opacity="0.3" fill="none"/>
+
+    <!-- Elder thumb -->
+    <ellipse cx="48" cy="195" rx="18" ry="28" fill="url(#elderSkin)" transform="rotate(-25, 48, 195)"/>
+    <path d="M 36 180 Q 42 172 54 175 Q 60 185 56 200" stroke="#8B5E3C" stroke-width="0.8" stroke-opacity="0.4" fill="none"/>
+
+    <!-- Elder index finger -->
+    <rect x="72" y="130" width="26" height="88" rx="13" fill="url(#elderSkin)"/>
+    <path d="M 76 155 Q 85 150 96 155" stroke="#8B5E3C" stroke-width="0.8" stroke-opacity="0.35" fill="none"/>
+    <path d="M 76 170 Q 85 165 96 170" stroke="#8B5E3C" stroke-width="0.8" stroke-opacity="0.35" fill="none"/>
+
+    <!-- Elder middle finger -->
+    <rect x="100" y="118" width="26" height="100" rx="13" fill="url(#elderSkin)"/>
+    <path d="M 104 142 Q 113 137 122 142" stroke="#8B5E3C" stroke-width="0.8" stroke-opacity="0.35" fill="none"/>
+    <path d="M 104 158 Q 113 153 122 158" stroke="#8B5E3C" stroke-width="0.8" stroke-opacity="0.35" fill="none"/>
+
+    <!-- Elder ring finger -->
+    <rect x="128" y="126" width="24" height="92" rx="12" fill="url(#elderSkin)"/>
+    <path d="M 132 148 Q 140 143 150 148" stroke="#8B5E3C" stroke-width="0.8" stroke-opacity="0.35" fill="none"/>
+
+    <!-- Elder pinky -->
+    <rect x="154" y="148" width="20" height="70" rx="10" fill="url(#elderSkin)"/>
+
+    <!-- Age spots on elder hand -->
+    <circle cx="90" cy="215" r="3" fill="#8B5E3C" fill-opacity="0.25"/>
+    <circle cx="115" cy="225" r="2.5" fill="#8B5E3C" fill-opacity="0.2"/>
+    <circle cx="78" cy="230" r="2" fill="#8B5E3C" fill-opacity="0.18"/>
+    <circle cx="135" cy="218" r="2" fill="#8B5E3C" fill-opacity="0.2"/>
+
+    <!-- Knuckle lines on fingers -->
+    <path d="M 76 185 Q 85 182 96 185" stroke="#8B5E3C" stroke-width="0.8" stroke-opacity="0.3" fill="none"/>
+    <path d="M 104 175 Q 113 172 122 175" stroke="#8B5E3C" stroke-width="0.8" stroke-opacity="0.3" fill="none"/>
+    <path d="M 132 168 Q 140 165 150 168" stroke="#8B5E3C" stroke-width="0.8" stroke-opacity="0.3" fill="none"/>
+  </g>
+
+  <!-- CHILD HAND (right, smaller, smooth, coming from top-right, gripping elder fingers) -->
+  <g filter="url(#softShadow)" transform="translate(148, 80)">
+    <!-- Child palm -->
+    <ellipse cx="80" cy="180" rx="48" ry="38" fill="url(#childSkin)"/>
+
+    <!-- Child thumb -->
+    <ellipse cx="38" cy="162" rx="13" ry="20" fill="url(#childSkin)" transform="rotate(-20, 38, 162)"/>
+
+    <!-- Child index finger — wrapping around elder middle finger -->
+    <rect x="52" y="102" width="20" height="80" rx="10" fill="url(#childSkin)"/>
+
+    <!-- Child middle finger -->
+    <rect x="74" y="92" width="20" height="90" rx="10" fill="url(#childSkin)"/>
+
+    <!-- Child ring finger -->
+    <rect x="96" y="100" width="18" height="82" rx="9" fill="url(#childSkin)"/>
+
+    <!-- Child pinky -->
+    <rect x="116" y="116" width="16" height="66" rx="8" fill="url(#childSkin)"/>
+
+    <!-- Child knuckle dimples — subtle -->
+    <circle cx="62" cy="148" r="3" fill="#B07040" fill-opacity="0.2"/>
+    <circle cx="84" cy="138" r="3" fill="#B07040" fill-opacity="0.2"/>
+    <circle cx="105" cy="144" r="3" fill="#B07040" fill-opacity="0.18"/>
+    <circle cx="124" cy="155" r="3" fill="#B07040" fill-opacity="0.18"/>
+
+    <!-- Smooth skin highlight -->
+    <ellipse cx="84" cy="175" rx="30" ry="18" fill="white" fill-opacity="0.06"/>
+  </g>
+
+  <!-- Warm light ray from join point -->
+  <radialGradient id="joinGlow" cx="52%" cy="55%" r="25%">
+    <stop offset="0%" stop-color="#C9A84C" stop-opacity="0.18"/>
+    <stop offset="100%" stop-color="#C9A84C" stop-opacity="0"/>
+  </radialGradient>
+  <ellipse cx="178" cy="255" rx="90" ry="70" fill="url(#joinGlow)"/>
+
+  <!-- Bottom gradient overlay -->
+  <rect x="0" y="340" width="340" height="120" fill="url(#shadowGrad)"/>
+
+  <!-- Gold particle dots -->
+  <circle cx="60" cy="60" r="1.5" fill="#C9A84C" fill-opacity="0.4">
+    <animate attributeName="opacity" values="0.4;0.8;0.4" dur="3s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="280" cy="100" r="1" fill="#C9A84C" fill-opacity="0.3">
+    <animate attributeName="opacity" values="0.3;0.7;0.3" dur="4s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="300" cy="380" r="1.5" fill="#C9A84C" fill-opacity="0.35">
+    <animate attributeName="opacity" values="0.35;0.7;0.35" dur="2.5s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="40" cy="360" r="1" fill="#C9A84C" fill-opacity="0.3">
+    <animate attributeName="opacity" values="0.3;0.6;0.3" dur="3.5s" repeatCount="indefinite"/>
+  </circle>
+</svg>
+        <div style="position:absolute;inset:0;background:linear-gradient(to top, rgba(14,11,7,0.9) 0%, transparent 55%);z-index:2;pointer-events:none;"></div>
+        <div class="frame-content" style="z-index:3;justify-content:flex-end;padding-bottom:32px;">
           <p class="frame-quote">"The stories we don't write down die with the people who lived them."</p>
           <p class="frame-attr">— The Virasat Ghar Promise</p>
         </div>
@@ -1355,16 +1490,16 @@ footer {
       <h3 class="pkg-name">The Memory</h3>
       <p class="pkg-sub">Begin Here</p>
       <div class="pkg-divider"></div>
-      <p class="pkg-desc">Your first step into Virasat Ghar. One conversation. One beautifully written story. Enough to make your family cry — and want more.</p>
+      <p class="pkg-desc">Not a summary of a life. One moment from it — written so beautifully that your family will read it again and again. This is where every Virasat Ghar story begins.</p>
       <ul class="pkg-features">
-        <li>90 minute interview session</li>
-        <li>1,000 word crafted narrative</li>
-        <li>Delivered as a designed PDF</li>
-        <li>One elder, one chapter of life</li>
+        <li>90 minute in-person conversation</li>
+        <li>One scene. One moment. 1,000 words.</li>
+        <li>Written like the first chapter of a novel</li>
+        <li>Delivered as a beautifully designed PDF</li>
         <li>Private digital delivery</li>
       </ul>
       <div class="pkg-price">₹9,999</div>
-      <div class="pkg-price-sub">One-time · No commitment</div>
+      <div class="pkg-price-sub">One-time project fee</div>
     </div>
 
     <div class="pkg reveal reveal-d1">
